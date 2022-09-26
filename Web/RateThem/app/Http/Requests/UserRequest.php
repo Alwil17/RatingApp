@@ -28,10 +28,10 @@ class UserRequest extends FormRequest
             'firstname' => 'required|string|max:75',
             'lastname' => 'required|string|max:50',
             'pseudo' => 'required|string|unique:users|max:50',
-            'email' => 'required|string||email|unique:users|max:255',
+            'email' => 'sometimes:required|string||email|unique:users|max:255',
             'phone' => 'nullable|string|max:25',
             'address' => 'nullable|string|max:255',
-            'password' => ['required', 'string', 'min:8', Password::defaults()],
+            'password' => ['sometimes:required', 'string', 'min:8', Password::defaults()],
         ];
     }
 }

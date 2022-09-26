@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RatingRequest;
 use App\Http\Resources\RatingResource;
 use App\Models\Rating;
 use Illuminate\Http\Request;
@@ -47,12 +48,13 @@ class RatingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param RatingRequest $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RatingResource
      */
     public function update(Request $request, $id)
     {
+        dd($request->toArray());
         $rating = Rating::findOrFail($id);
         $rating->update($request->all());
         return new RatingResource($rating);

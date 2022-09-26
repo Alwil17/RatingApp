@@ -19,7 +19,9 @@ Route::post('login', [\App\Http\Controllers\API\PassportAuthController::class, '
 
 Route::middleware('auth:api')->group(function () {
     Route::get('get-user', [\App\Http\Controllers\API\PassportAuthController::class, 'userInfo']);
-    Route::apiResource('users', \App\Http\Controllers\API\UserController::class)->except("store");
+    Route::apiResource('users', \App\Http\Controllers\API\UserController::class)->except("store")->parameters([
+        "users" => "user"
+    ]);
     Route::apiResource('structures', \App\Http\Controllers\API\StructureController::class);
     Route::apiResource('products', \App\Http\Controllers\API\ProductController::class);
     Route::apiResource('ratings', \App\Http\Controllers\API\RatingController::class);
