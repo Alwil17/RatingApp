@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -21,6 +22,14 @@ class UserController extends Controller
         return UserResource::collection(User::all());
     }
 
+    public function getInputs($request){
+        $inputs = $request->all();
+        if($request->has('password')){
+            $inputs['password'] = Hash::make($request->password);
+        }
+        return $inputs;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -29,8 +38,11 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $user = User::create($request->all());
-        return new UserResource($user);
+        $inputs = $this->getInputs($request);
+        $user = User::create($inputs);
+        $token = $user->createToken('RateThemAuthAPI')->accessToken;
+
+        return response()->json(['__token' => $token], 201);
     }
 
     /**
@@ -54,8 +66,9 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
+        $inputs = $this->getInputs($request);
         $user = User::findOrFail($id);
-        $user->update($request->all());
+        $user->update($inputs);
         return new UserResource($user);
     }
 

@@ -17,4 +17,12 @@ class Product extends Model
         'type',
         'structure_id',
     ];
+
+    public function structure(){
+        return $this->belongsTo(Structure::class);
+    }
+
+    public function ratings(){
+        return $this->hasMany(Rating::class);
+    }
 }
