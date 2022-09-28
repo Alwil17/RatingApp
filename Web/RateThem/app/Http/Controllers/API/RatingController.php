@@ -27,7 +27,7 @@ class RatingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RatingRequest $request)
     {
         $rating = Rating::create($request->all());
         return new RatingResource($rating);
@@ -52,9 +52,8 @@ class RatingController extends Controller
      * @param  int  $id
      * @return RatingResource
      */
-    public function update(Request $request, $id)
+    public function update(RatingRequest $request, $id)
     {
-        dd($request->toArray());
         $rating = Rating::findOrFail($id);
         $rating->update($request->all());
         return new RatingResource($rating);

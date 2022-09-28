@@ -66,7 +66,6 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        dd("HERE", $id, $request->toArray());
         $inputs = $this->getInputs($request);
         $user = User::findOrFail($id);
         $user->update($inputs);

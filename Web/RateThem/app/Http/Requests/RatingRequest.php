@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class RatingRequest extends FormRequest
 {
@@ -26,8 +28,17 @@ class RatingRequest extends FormRequest
         return [
             'note' => "required|string|max:255",
             'commentaire' => "required|string",
-            'product_id' => "required|numeric",
-            'user_id' => "required|numeric",
+            'product_id' => "nullable|numeric",
+            'user_id' => "nullable|numeric",
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'data'      => $validator->errors()
+        ]));
     }
 }

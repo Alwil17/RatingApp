@@ -15,9 +15,9 @@ class RatingFactory extends Factory
     {
         return [
             'note' => rand(1, 5),
-        'commentaire' => $this->faker->text(40),
-        'product_id' => rand(1, 30),
-        'user_id' => rand(1, 20),
+            'commentaire' => $this->faker->text(40),
+            'product_id' => rand(1, 30),
+            'user_id' => rand(1, 20),
         ];
     }
 }
