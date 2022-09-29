@@ -19,5 +19,6 @@ Route::prefix('admin')->middleware('admin')->namespace('\App\Http\Controllers\Ba
     Route::resource('days', DaysController::class)->except('show')->parameters([
         'day' => 'day'
     ]);
+    Route::get('days/{day}', [DaysController::class,'alert'])->name('days.destroy.alert');
 });
 

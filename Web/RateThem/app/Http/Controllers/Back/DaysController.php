@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DayRequest;
 use App\Models\Day;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class DaysController extends Controller
 {
@@ -30,6 +31,12 @@ class DaysController extends Controller
         return view('back.days.form');
     }
 
+    protected function getInputs($request){
+        $inputs = $request->except(["slug"]);
+        $inputs["slug"] = Str::slug($request->nom);
+        return $inputs;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -38,20 +45,10 @@ class DaysController extends Controller
      */
     public function store(DayRequest $request)
     {
-        Day::create($request->all());
+        $inputs = $this->getInputs($request);
+        Day::create($inputs);
 //        Http::asForm()->post(url('/api/days'), $request->all());
         return back()->with('alert', config('messages.daycreated'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -60,9 +57,9 @@ class DaysController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Day $day)
     {
-        //
+        return view('back.days.form', compact('day'));
     }
 
     /**
@@ -72,9 +69,11 @@ class DaysController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Day $day)
     {
-        //
+        $inputs = $this->getInputs($request);
+        $day->update($inputs);
+        return back()->with('alert', config('messages.dayupdated'));
     }
 
     /**
@@ -83,8 +82,13 @@ class DaysController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Day $day)
     {
-        //
+        $day->delete();
+        return redirect(route('days.index'));
+    }
+    public function alert(Day $day)
+    {
+        return view('back.days.destroy', ['day' => $day]);
     }
 }

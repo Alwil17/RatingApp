@@ -24,7 +24,10 @@ class DaysDataTable extends DataTable
             ->addColumn('edit', function ($day) {
                 return '<a href="' . route('days.edit', $day->id) . '" class="btn btn-xs btn-warning btn-block">Modifier</a>';
             })
-            ->rawColumns(['edit']);
+            ->addColumn('destroy', function ($day) {
+                return '<a href="' . route('days.destroy.alert', $day->id) . '" class="btn btn-xs btn-danger btn-block ' . ($day->structures->count() ? 'disabled' : '') .'">Supprimer</a>';
+            })
+            ->rawColumns(['edit', 'destroy']);
     }
 
     /**
@@ -67,6 +70,10 @@ class DaysDataTable extends DataTable
             Column::make('nom')->title('Nom'),
             Column::make('slug')->title('Slug'),
             Column::computed('edit')
+                ->title('')
+                ->width(60)
+                ->addClass('text-center'),
+            Column::computed('destroy')
                 ->title('')
                 ->width(60)
                 ->addClass('text-center'),

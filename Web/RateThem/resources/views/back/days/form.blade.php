@@ -14,7 +14,7 @@
                                 name="nom"
                                 type="text"
                                 label="Nom"
-                                :value="isset($day) ? $day->name : ''"
+                                :value="isset($day) ? $day->nom : ''"
                             ></x-inputbs4>
                         </div>
                 </div>
