@@ -85,7 +85,7 @@ class DaysController extends Controller
     public function destroy(Day $day)
     {
         $day->delete();
-        return redirect(route('days.index'));
+        return redirect(route('days.index'))->with('alert', config('messages.daydeleted'));
     }
     public function alert(Day $day)
     {
