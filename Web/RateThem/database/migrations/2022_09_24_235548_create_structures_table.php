@@ -21,9 +21,8 @@ class CreateStructuresTable extends Migration
             $table->string('address', 255);
             $table->string('tel1', 25);
             $table->string('tel2')->nullable();
-            $table->tinyText('horaires')->nullable();
             $table->integer('is_active')->default(0);;
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });

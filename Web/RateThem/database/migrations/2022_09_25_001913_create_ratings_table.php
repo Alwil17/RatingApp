@@ -17,8 +17,8 @@ class CreateRatingsTable extends Migration
             $table->id();
             $table->integer('note');
             $table->string('commentaire')->nullable();
-            $table->integer('product_id');
-            $table->integer('user_id');
+            $table->integer('product_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });

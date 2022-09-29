@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class StructureResource extends JsonResource
+class DayResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,12 +18,6 @@ class StructureResource extends JsonResource
             'id' => $this->id,
             'nom' => $this->nom,
             'slug' => $this->slug,
-            'description' => $this->description,
-            'address' => $this->address,
-            'tel1' => $this->tel1,
-            'tel2' => $this->tel2,
-            'horaires' => $this->horaires,
-            'user' => $this->whenLoaded("user"),
         ];
     }
 }

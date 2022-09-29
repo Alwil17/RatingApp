@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductsTable extends Migration
+class CreateWorkhoursTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,12 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('workhours', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('slug')->nullable();
-            $table->text('description');
-            $table->string('type')->default('produit');
-            $table->integer('is_active')->default(0);
             $table->integer('structure_id')->unsigned();
-            $table->timestamps();
-            $table->softDeletes();
+            $table->integer('day_id')->unsigned();
+            $table->time('start_time');
+            $table->time('end_time');
         });
     }
 
@@ -33,6 +29,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('workhours');
     }
 }

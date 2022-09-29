@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Day;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -30,5 +31,14 @@ class DatabaseSeeder extends Seeder
         \App\Models\Structure::factory(25)->create();
         \App\Models\Product::factory(150)->create();
         \App\Models\Rating::factory(250)->create();
+
+        $days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche', 'Jours féries'];
+
+        foreach ($days as $day){
+            Day::create([
+               "nom" => $day,
+               "slug" => Str::slug($day)
+            ]);
+        }
     }
 }

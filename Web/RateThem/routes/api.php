@@ -19,6 +19,7 @@ Route::post('login', [\App\Http\Controllers\API\PassportAuthController::class, '
 
 Route::middleware('auth:api')->group(function () {
     Route::get('get-user', [\App\Http\Controllers\API\PassportAuthController::class, 'userInfo']);
+    Route::apiResource('days', \App\Http\Controllers\API\DayController::class);
     Route::apiResource('users', \App\Http\Controllers\API\UserController::class)->except("store");
     Route::apiResource('structures', \App\Http\Controllers\API\StructureController::class);
     Route::apiResource('products', \App\Http\Controllers\API\ProductController::class);

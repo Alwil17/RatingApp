@@ -17,7 +17,6 @@ class Structure extends Model
         'address',
         'tel1',
         'tel2',
-        'horaires',
         'user_id',
     ];
 
@@ -27,5 +26,10 @@ class Structure extends Model
 
     public function products(){
         return $this->hasMany(Product::class);
+    }
+
+    public function days()
+    {
+        return $this->belongsToMany(Day::class, 'workhours')->withPivot('start_time', 'end_time');
     }
 }
