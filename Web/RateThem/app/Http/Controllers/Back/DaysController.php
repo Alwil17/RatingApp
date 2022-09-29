@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DayRequest;
 use App\Models\Day;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class DaysController extends Controller
 {
@@ -39,7 +38,8 @@ class DaysController extends Controller
      */
     public function store(DayRequest $request)
     {
-        //Http::asForm()->post(url('/api/days'), $request->all());
+        Day::create($request->all());
+//        Http::asForm()->post(url('/api/days'), $request->all());
         return back()->with('alert', config('messages.daycreated'));
     }
 
