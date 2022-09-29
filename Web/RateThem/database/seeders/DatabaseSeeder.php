@@ -40,5 +40,6 @@ class DatabaseSeeder extends Seeder
                "slug" => Str::slug($day)
             ]);
         }
+        \App\Models\Workhour::factory(40)->create();
     }
 }
