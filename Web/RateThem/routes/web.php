@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('admin')->middleware('admin')->namespace('\App\Http\Controllers\Back')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Back\AdminController::class, 'index'])->name('admin');
+
 });
+
