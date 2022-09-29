@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StructureRequest;
+use App\Http\Requests\StructureUpdateRequest;
 use App\Http\Resources\StructureResource;
 use App\Models\Structure;
 use Illuminate\Http\Request;
@@ -25,6 +26,10 @@ class StructureController extends Controller
     protected function getInputs($request){
         $inputs = $request->except(["slug"]);
         $inputs["slug"] = Str::slug($request->nom);
+        if($request->has("start") && $request->has("end")){
+            $inputs["starts"] = $request->all()['start'];
+            $inputs["ends"] = $request->all()['end'];
+        }
         return $inputs;
     }
 
@@ -60,11 +65,22 @@ class StructureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StructureRequest $request, $id)
+    public function update(StructureUpdateRequest $request, $id)
     {
         $inputs = $this->getInputs($request);
         $structure = Structure::findOrFail($id);
         $structure->update($inputs);
+
+        $starts = $inputs['start'];
+        $ends = $inputs['end'];
+
+        $structure->days()->detach();
+        foreach ($starts as $key => $array){
+            foreach ($array as $k => $value) {
+                $structure->days()->attach([$key => ['start_time' => $value, 'end_time' => $ends[$key][$k]]]);
+            }
+        }
+
         return new StructureResource($structure);
     }
 
@@ -77,6 +93,7 @@ class StructureController extends Controller
     public function destroy($id)
     {
         $structure = Structure::findOrFail($id);
+        $structure->days()->detach();
         $structure->delete();
         return response(null, 204);
     }

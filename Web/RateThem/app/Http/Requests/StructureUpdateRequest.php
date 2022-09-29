@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StructureRequest extends FormRequest
+class StructureUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,12 +26,14 @@ class StructureRequest extends FormRequest
     public function rules()
     {
         return [
-            'nom' => "required|string|max:255",
-            'description' => "required|string",
-            'address' => "required|string|max:255",
-            'tel1' => "required|numeric|max:25",
+            'nom' => "nullable|string|max:255",
+            'description' => "nullable|string",
+            'address' => "nullable|string|max:255",
+            'tel1' => "nullable|numeric|max:25",
             'tel2' => "nullable|numeric|max:25",
             'user_id' => "required|numeric",
+            'start.*' => 'date',
+            'end.*' => 'date'
         ];
     }
 
