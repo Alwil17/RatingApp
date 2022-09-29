@@ -16,5 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->middleware('admin')->namespace('\App\Http\Controllers\Back')->group(function () {
     Route::get('/', [\App\Http\Controllers\Back\AdminController::class, 'index'])->name('admin');
 
+    Route::resource('days', DaysController::class)->except('show')->parameters([
+        'day' => 'day'
+    ]);
 });
 

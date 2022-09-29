@@ -18,6 +18,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{asset('plugins/fontawesome-free/css/all.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
+    @yield('css')
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -30,7 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="{{ route('admin') }}" class="nav-link">{{$title}}</a>
+                <a href="{{ route('admin') }}" class="nav-link">Admin</a>
             </li>
         </ul>
 
@@ -115,6 +116,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             :active="currentRouteActive('admin')">
                             Tableau de bord
                         </x-menu-item>
+                        <x-menu-item :href="route('days.index')" :sub=true :active="currentRouteActive(
+                            'days.index',
+                            'days.edit',
+                            'days.create'
+                          )">
+                            Jours de travail
+                        </x-menu-item>
                         {{--<ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="#" class="nav-link active">
@@ -144,7 +152,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Titres</h1>
+                        <h1 class="m-0">{{ $titles }}</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -154,6 +162,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main content -->
         <div class="content">
             <div class="container-fluid">
+                @if(session()->has('alert'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('alert') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+            @endif
             @yield("main")
             <!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -182,5 +198,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
+@yield('js')
 </body>
 </html>
