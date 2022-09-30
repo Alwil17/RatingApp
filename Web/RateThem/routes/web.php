@@ -20,5 +20,9 @@ Route::prefix('admin')->middleware('admin')->namespace('\App\Http\Controllers\Ba
         'day' => 'day'
     ]);
     Route::get('days/{day}', [\App\Http\Controllers\Back\DaysController::class, 'alert'])->name('days.destroy.alert');
+    Route::resource('users', UsersController::class)->except('show')->parameters([
+        'user' => 'user'
+    ]);
+    Route::get('users/{day}', [\App\Http\Controllers\Back\UsersController::class, 'alert'])->name('users.destroy.alert');
 });
 

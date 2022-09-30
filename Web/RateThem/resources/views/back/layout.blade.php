@@ -123,6 +123,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           )">
                             Jours de travail
                         </x-menu-item>
+                        <x-menu-item :href="route('users.index')" :sub=true :active="currentRouteActive(
+                            'users.index',
+                            'users.edit',
+                            'users.create'
+                          )">
+                            Gestion des utilisateurs
+                        </x-menu-item>
                         {{--<ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="#" class="nav-link active">

@@ -13,4 +13,9 @@ return [
         'edit' => 'Modification d\'un jour',
         'create' => 'Création d\'un jour',
     ],
+    'users' => [
+        'index' => 'Gestion des utilisateurs',
+        'edit' => 'Modification d\'un utilisateur',
+        'create' => 'Ajout d\'un utilisateur',
+    ],
 ];

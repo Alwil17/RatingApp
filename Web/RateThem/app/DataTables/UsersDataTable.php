@@ -2,14 +2,14 @@
 
 namespace App\DataTables;
 
-use App\Models\Day;
+use App\Models\User;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class DaysDataTable extends DataTable
+class UsersDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -19,26 +19,26 @@ class DaysDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        return datatables()
-            ->eloquent($query)
-            ->addColumn('edit', function ($day) {
-                return '<a href="' . route('days.edit', $day->id) . '" class="btn btn-xs btn-warning btn-block">Modifier</a>';
-            })
-            ->addColumn('destroy', function ($day) {
-                return '<a href="' . route('days.destroy.alert', $day->id) . '" class="btn btn-xs btn-danger btn-block ' . ($day->structures->count() ? 'disabled' : '') .'">Supprimer</a>';
-            })
-            ->rawColumns(['edit', 'destroy']);
+            return datatables()
+                ->eloquent($query)
+                ->addColumn('edit', function ($user) {
+                    return '<a href="' . route('users.edit', $user->id) . '" class="btn btn-xs btn-warning btn-block">Modifier</a>';
+                })
+                ->addColumn('destroy', function ($user) {
+                    return '<a href="' . route('users.destroy.alert', $user->id) . '" class="btn btn-xs btn-danger btn-block ' . ($user->ratings->count() ? 'disabled' : '') .'">Supprimer</a>';
+                })
+                ->rawColumns(['edit', 'destroy']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Day $model
+     * @param \App\Models\User $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Day $model)
+    public function query(User $model)
     {
-        return $model->newQuery();
+        return $model->where('id', ">", 1)->newQuery();
     }
 
     /**
@@ -49,11 +49,11 @@ class DaysDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('days-table')
+            ->setTableId('users-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Blfrtip')
-            ->orderBy(0)
+            ->orderBy(0, 'DESC')
             ->lengthMenu()
             ->language('//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json');
     }
@@ -67,8 +67,12 @@ class DaysDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('nom')->title('Nom'),
-            Column::make('slug')->title('Slug'),
+            Column::make('lastname')->title('Nom'),
+            Column::make('firstname')->title('Prenoms'),
+            Column::make('pseudo')->title('Pseudo'),
+            Column::make('type')->title('Type'),
+            Column::make('email')->title('Email'),
+            Column::make('phone')->title('Tel'),
             Column::computed('edit')
                 ->title('')
                 ->width(60)
@@ -87,6 +91,6 @@ class DaysDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Days_' . date('YmdHis');
+        return 'Users_' . date('YmdHis');
     }
 }
