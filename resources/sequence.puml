@@ -1,0 +1,17 @@
+@startuml
+actor Client
+participant "FastAPI Endpoint" as API
+participant "RatingService" as Service
+participant "RatingRepository" as Repo
+database "Database" as DB
+
+Client -> API : POST /ratings\navec RatingDTO (value, comment, user_id, item_id)
+API -> Service : create_rating(ratingDTO)
+Service -> Service : Convertit RatingDTO en Rating\n(ajoute created_at, etc.)
+Service -> Repo : save(rating)
+Repo -> DB : INSERT Rating
+DB --> Repo : Rating enregistré (avec id généré)
+Repo --> Service : Rating mis à jour
+Service --> API : Retourne Rating
+API --> Client : HTTP 201 Created\navec Rating (JSON)
+@enduml
