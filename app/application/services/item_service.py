@@ -2,7 +2,7 @@
 
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from app.domain.models import Item
+from app.domain.item import Item
 from app.infrastructure.repositories.item_repository import ItemRepository
 from app.application.schemas import ItemCreateDTO, ItemUpdateDTO
 

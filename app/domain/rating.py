@@ -3,8 +3,7 @@
 from datetime import datetime
 from sqlalchemy import Column, Integer, Float, String, DateTime, ForeignKey, Text
 from sqlalchemy.orm import relationship, declarative_base
-
-Base = declarative_base()
+from app.domain.base import Base
 
 class Rating(Base):
     __tablename__ = 'ratings'

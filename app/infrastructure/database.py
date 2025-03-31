@@ -2,23 +2,27 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from app.domain.base import Base  # Importer Base depuis le fichier commun
+import app.domain  # Ceci charge les modules user, item, rating via __init__.py
 
-# Chaîne de connexion pour SQLite : le fichier 'ratings.db' sera créé dans le dossier courant.
 DATABASE_URL = "sqlite:///./ratings.db"
 
-# Création de l'engine SQLAlchemy
 engine = create_engine(
     DATABASE_URL, 
-    connect_args={"check_same_thread": False}  # nécessaire pour SQLite en multithreading
+    connect_args={"check_same_thread": False}  # Spécifique à SQLite
 )
 
-# Création de la session locale
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Dépendance pour obtenir une session de base de données dans FastAPI
+def init_db():
+    Base.metadata.create_all(bind=engine)
+
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
+
+# Créer les tables au démarrage
+init_db()
