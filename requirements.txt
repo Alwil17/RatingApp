@@ -1,0 +1,6 @@
+fastapi==0.115.12
+uvicorn==0.34.1
+SQLAlchemy==2.0.40
+alembic==1.15.1
+pydantic
+pydantic[email]
