@@ -1,7 +1,7 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from app.domain.models import Rating
-from app.application.schemas import RatingCreateDTO, RatingUpdateDTO
+from app.domain.models.rating import Rating
+from app.application.schemas.rating_dto import RatingCreateDTO, RatingUpdateDTO
 
 class RatingRepository:
     def __init__(self, db: Session):

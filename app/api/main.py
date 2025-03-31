@@ -8,11 +8,9 @@ import uvicorn
 from app.infrastructure.database import get_db
 
 # Importer les schémas (DTOs et Response)
-from app.application.schemas import (
-    RatingCreateDTO,
-    RatingUpdateDTO,
-    RatingResponse
-)
+import app.application.schemas.item_dto
+from app.application.schemas.rating_dto import RatingResponse, RatingUpdateDTO, RatingCreateDTO
+import app.application.schemas.user_dto
 
 # Importer le service
 from app.application.services.rating_service import RatingService

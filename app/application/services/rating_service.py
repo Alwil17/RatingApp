@@ -2,9 +2,9 @@
 
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from app.domain.models import Rating
+from app.domain.models.rating import Rating
 from app.infrastructure.repositories.rating_repository import RatingRepository
-from app.application.schemas import RatingCreateDTO, RatingUpdateDTO
+from app.application.schemas.rating_dto import RatingCreateDTO, RatingUpdateDTO
 
 class RatingService:
     def __init__(self, db_session: Session):
