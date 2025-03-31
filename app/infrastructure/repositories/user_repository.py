@@ -1,7 +1,7 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from app.domain.user import User
-from app.application.schemas import UserCreateDTO, UserUpdateDTO
+from app.application.schemas.user_dto import UserCreateDTO, UserUpdateDTO
 
 class UserRepository:
     def __init__(self, db: Session):
