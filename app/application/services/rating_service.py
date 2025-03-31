@@ -2,7 +2,7 @@
 
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from app.domain.models.rating import Rating
+from app.domain.rating import Rating
 from app.infrastructure.repositories.rating_repository import RatingRepository
 from app.application.schemas.rating_dto import RatingCreateDTO, RatingUpdateDTO
 

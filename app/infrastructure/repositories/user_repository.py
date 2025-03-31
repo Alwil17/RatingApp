@@ -1,6 +1,6 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
-from app.domain.models import User
+from app.domain.user import User
 from app.application.schemas import UserCreateDTO, UserUpdateDTO
 
 class UserRepository:
