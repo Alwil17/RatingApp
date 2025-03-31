@@ -6,6 +6,7 @@ from app.infrastructure.database import get_db
 
 router = APIRouter(prefix="/ratings", tags=["Ratings"])
 
+
 # Endpoint pour créer un nouveau rating
 @router.post("", response_model=RatingResponse, status_code=201)
 def create_rating(rating_dto: RatingCreateDTO, db: Session = Depends(get_db)):

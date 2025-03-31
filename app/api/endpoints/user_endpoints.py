@@ -6,6 +6,7 @@ from app.infrastructure.database import get_db
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
+
 @router.post("", response_model=UserResponse, status_code=201)
 def create_user(user_data: UserCreateDTO, db: Session = Depends(get_db)):
     user_service = UserService(db)

@@ -6,6 +6,7 @@ from app.infrastructure.database import get_db
 
 router = APIRouter(prefix="/items", tags=["Items"])
 
+
 @router.post("", response_model=ItemResponse, status_code=201)
 def create_item(item_data: ItemCreateDTO, db: Session = Depends(get_db)):
     item_service = ItemService(db)
