@@ -1,10 +1,8 @@
-# app/application/services/user_service.py
-
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from app.domain.user import User
 from app.infrastructure.repositories.user_repository import UserRepository
-from app.application.schemas import UserCreateDTO, UserUpdateDTO
+from app.application.schemas.user_dto import UserCreateDTO, UserUpdateDTO
 
 class UserService:
     def __init__(self, db_session: Session):
