@@ -1,6 +1,6 @@
 # app/infrastructure/repository.py
 from typing import List, Optional
-from app.domain.models import Rating, Base
+from app.domain.models.rating import Rating, Base
 from app.infrastructure.database import engine, SessionLocal
 
 # Créer les tables si elles n'existent pas

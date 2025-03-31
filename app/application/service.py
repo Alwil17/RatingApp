@@ -1,6 +1,6 @@
 # app/application/service.py
-from app.application.schemas import RatingDTO
-from app.domain.models import Rating
+from app.application.schemas.rating_dto import RatingDTO
+from app.domain.models.rating import Rating
 from app.infrastructure.repository import RatingRepository
 
 class RatingService:

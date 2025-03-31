@@ -1,6 +1,6 @@
 # app/api/main.py
 from fastapi import FastAPI, HTTPException, Depends
-from app.application.schemas import RatingDTO, RatingResponse
+from app.application.schemas.rating_dto import RatingDTO, RatingResponse
 from app.application.service import RatingService
 from app.infrastructure.repository import RatingRepository
 from sqlalchemy.orm import Session
