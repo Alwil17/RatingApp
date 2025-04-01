@@ -1,46 +1,100 @@
-# API de Rating avec FastAPI
+#📌 FastAPI Rating System
 
-Ce projet est une API REST minimaliste développée avec **FastAPI**. Elle permet de gérer un système de notation (rating) pour noter des éléments (produits, services, etc.). L’architecture est inspirée de la Clean Architecture et se divise en plusieurs couches afin de séparer clairement les responsabilités.
+Ce projet est une API REST développée avec **FastAPI** permettant la gestion des utilisateurs, des items et des évaluations (ratings). Il suit une architecture modulaire et repose sur SQLAlchemy pour la gestion des données.
 
-## Table des matières
+## 📂 Structure du projet
+```
+📁 app/
+├── 📁 api/                 # Contient les routeurs FastAPI
+│   ├── 📁 endpoints/       # Contients tous les endpoints 
+│       ├── user_endpoints.py   # Endpoints liés aux utilisateurs
+│       ├── item_endpoints.py   # Endpoints liés aux items
+│       ├── rating_endpoints.py # Endpoints liés aux évaluations
+│   └── main.py             # Point d'entrée principal de l'API
+│
+├── 📁 application/
+│   ├── 📁 schemas/         # Définition des DTO et Response Models
+│   ├── 📁 services/        # Contient la logique métier
+│
+├── 📁 domain/
+│   ├── user.py             # Modèle SQLAlchemy pour les utilisateurs
+│   ├── item.py             # Modèle SQLAlchemy pour les items
+│   ├── rating.py           # Modèle SQLAlchemy pour les évaluations
+│
+├── 📁 infrastructure/
+│   ├── database.py         # Configuration de la base de données
+│   ├── repositories/       # Contient les classes d'accès aux données (repositories)
+│
+📁 resources/           # Contient les diagrammes UML
+│   ├── schema.puml         # Schéma de la base de données (PlantUML)
+│   ├── schema.png          # Version image du schéma de la BD
+│   ├── sequence.puml       # Diagramme de séquence (PlantUML)
+│   ├── sequence.png        # Version image du diagramme de séquence
+│
+├── requirements.txt        # Dépendances du projet
+├── README.md               # Documentation du projet
+```
 
-- [Architecture du Projet](#architecture-du-projet)
-- [Structure du Projet](#structure-du-projet)
-- [Installation et Configuration](#installation-et-configuration)
-- [Exécution de l'Application](#exécution-de-lapplication)
-- [Endpoints Disponibles](#endpoints-disponibles)
-- [Tests et Développement](#tests-et-développement)
-- [Contributions](#contributions)
-- [Licence](#licence)
+##🛠️ Installation et Exécution
+###1️⃣ Installation des dépendances
 
-## Architecture du Projet
+Assurez-vous d'avoir Python 3.8+ installé. Ensuite, créez un environnement virtuel et installez les dépendances :
+```
+python -m venv venv
+source venv/bin/activate  # Sur Mac/Linux
+venv\Scripts\activate     # Sur Windows
 
-Le projet s'organise en plusieurs couches afin d'assurer une bonne séparation des préoccupations :
+pip install -r requirements.txt
+```
+###2️⃣ Lancer l'application
 
-1. **Domaine (Modèle Métier)**
-    - **Rating** : entité principale qui contient les propriétés essentielles d'un rating :
-        - `id` : identifiant unique
-        - `value` : la note (ex. : nombre entre 0 et 5)
-        - `comment` : un commentaire optionnel
-        - `user_id` : identifiant de l’utilisateur qui a soumis la note
-        - `item_id` : identifiant de l’élément noté
-        - `created_at` et `updated_at` : pour le suivi temporel
+Exécutez la commande suivante pour démarrer l'API :
 
-2. **Application (Services et DTOs)**
-    - **RatingDTO** : schéma Pydantic pour la validation des données d'entrée/sortie.
-    - **RatingService** : contient la logique métier, par exemple pour créer, récupérer, mettre à jour et supprimer un rating. Il orchestre la conversion entre le DTO et l'entité et appelle le repository pour l'accès aux données.
+`uvicorn app.api.main:app --reload`
 
-3. **Infrastructure (Accès aux Données)**
-    - **RatingRepository** : interface définissant les opérations (save, get_by_id, update, delete, list).
-    - **SQLAlchemyRatingRepository** : implémentation concrète utilisant SQLAlchemy pour interagir avec une base de données SQLite (ou autre).
+L'API sera accessible sur : http://127.0.0.1:8000
 
-4. **API (Couche de Présentation)**
-    - Les endpoints FastAPI exposent les routes REST (POST, GET, PUT, DELETE) et appellent le service pour exécuter la logique métier.
-    - Les routes sont regroupées (par exemple dans un module `ratings.py`) afin de garder le fichier principal (`main.py`) propre.
+## 📖 Documentation Swagger
 
----
+Une documentation interactive est disponible sur :
 
-## Structure du Projet
+- Swagger UI
+- ReDoc
 
-La structure du projet est organisée comme suit :
+Les endpoints sont organisés en groupes :
 
+- Users → `/users/...`
+- Items → `/items/...`
+- Ratings → `/ratings/...`
+
+## 📊 Diagrammes UML
+
+Des diagrammes UML ont été générés pour mieux comprendre l'architecture du projet :
+
+### 🏗 Schéma de la base de données
+
+- 📁 `resources/schema.puml` (PlantUML)
+![DB Schema!](/resources/schema.png "DB Schema")
+
+### 🔄 Diagramme de séquence
+
+- 📁 `resources/sequence.puml` (PlantUML)
+![Diagramme de séquence!](/resources/sequence.png "Diagramme de séquence")
+
+### 🛠 Technologies utilisées
+
+- FastAPI : Framework web rapide pour Python
+- SQLAlchemy : ORM pour la gestion des bases de données
+- PostgreSQL : Base de données relationnelle
+- Uvicorn : Serveur ASGI performant
+- PlantUML : Génération de diagrammes UML
+
+## 🚀 Améliorations futures
+
+* 🔹 Ajout d'une authentification via OAuth2
+* 🔹 Mise en place de WebSockets pour les mises à jour en temps réel
+* 🔹 Intégration d'un système de permissions avancé
+
+## 📩 Contact
+
+Si vous avez des questions, n'hésitez pas à me contacter ou à contribuer au projet ! 😃

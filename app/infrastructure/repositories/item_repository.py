@@ -1,7 +1,7 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from app.domain.item import Item
-from app.application.schemas import ItemCreateDTO, ItemUpdateDTO
+from app.application.schemas.item_dto import ItemCreateDTO, ItemUpdateDTO
 
 class ItemRepository:
     def __init__(self, db: Session):

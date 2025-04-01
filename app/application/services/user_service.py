@@ -1,10 +1,9 @@
-# app/application/services/user_service.py
-
 from typing import List, Optional
 from sqlalchemy.orm import Session
+from app.api.security import verify_password
 from app.domain.user import User
 from app.infrastructure.repositories.user_repository import UserRepository
-from app.application.schemas import UserCreateDTO, UserUpdateDTO
+from app.application.schemas.user_dto import UserCreateDTO, UserUpdateDTO
 
 class UserService:
     def __init__(self, db_session: Session):
@@ -16,6 +15,17 @@ class UserService:
         if existing_user:
             raise ValueError("Un utilisateur avec cet email existe déjà.")
         return self.repository.create(user_data)
+
+    def get_user_by_email(self, email: str) -> User:
+        return self.repository.get_by_email(email)
+
+    def authenticate_user(self, email: str, password: str) -> User:
+        user = self.get_user_by_email(email)
+        if not user:
+            return None
+        if not verify_password(password, user.hashed_password):
+            return None
+        return user
 
     def get_user_by_id(self, user_id: int) -> Optional[User]:
         return self.repository.get_by_id(user_id)

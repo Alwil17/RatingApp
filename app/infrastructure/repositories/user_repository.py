@@ -1,15 +1,20 @@
 from typing import List, Optional
 from sqlalchemy.orm import Session
+from app.api.security import hash_password
 from app.domain.user import User
-from app.application.schemas import UserCreateDTO, UserUpdateDTO
+from app.application.schemas.user_dto import UserCreateDTO, UserUpdateDTO
 
 class UserRepository:
     def __init__(self, db: Session):
         self.db = db
 
     def create(self, user_data: UserCreateDTO) -> User:
-        # Crée une instance User à partir du DTO
-        user = User(**user_data.dict())
+        hashed_pw = hash_password(user_data.password)
+        user = User(
+            name=user_data.name,
+            email=user_data.email,
+            hashed_password=hashed_pw
+        )
         self.db.add(user)
         self.db.commit()
         self.db.refresh(user)

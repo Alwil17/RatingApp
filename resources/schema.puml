@@ -1,0 +1,114 @@
+@startuml
+' ---------------------------
+' Couche Domain (Modèles)
+' ---------------------------
+package "Domain" {
+  class User {
+    + id : int
+    + name : string
+    + email : string
+    + created_at : datetime
+    + updated_at : datetime
+  }
+
+  class Item {
+    + id : int
+    + name : string
+    + description : string
+    + created_at : datetime
+    + updated_at : datetime
+  }
+
+  class Rating {
+    + id : int
+    + value : float
+    + comment : string
+    + user_id : int
+    + item_id : int
+    + created_at : datetime
+    + updated_at : datetime
+  }
+
+  ' Relations
+  User "1" <-- "0..*" Rating : "has"
+  Item "1" <-- "0..*" Rating : "receives"
+}
+
+' ---------------------------
+' Couche Application (DTOs et Service)
+' ---------------------------
+package "Application" {
+  class RatingCreateDTO {
+    + value : float
+    + comment : string
+    + user_id : int
+    + item_id : int
+  }
+
+  class RatingUpdateDTO {
+    + value : float
+    + comment : string
+  }
+
+  class RatingResponse {
+    + id : int
+    + value : float
+    + comment : string
+    + user_id : int
+    + item_id : int
+    + created_at : datetime
+    + updated_at : datetime
+  }
+  class RatingService {
+    + create_rating(dto: RatingCreateDTO) : Rating
+    + get_rating_by_id(id: int) : Rating
+    + list_ratings() : List<Rating>
+    + update_rating(id: int, dto: RatingUpdateDTO) : Rating
+    + delete_rating(id: int) : bool
+  }
+
+  ' Le service utilise les DTOs
+  RatingService --> RatingCreateDTO : "uses"
+  RatingService --> RatingUpdateDTO : "uses"
+}
+
+' ---------------------------
+' Couche Infrastructure (Repository)
+' ---------------------------
+package "Infrastructure" {
+  interface RatingRepository {
+    + create(dto: RatingCreateDTO) : Rating
+    + get_by_id(id: int) : Rating
+    + list() : List<Rating>
+    + update(id: int, dto: RatingUpdateDTO) : Rating
+    + delete(id: int) : bool
+  }
+  class SQLAlchemyRatingRepository {
+    + create(dto: RatingCreateDTO) : Rating
+    + get_by_id(id: int) : Rating
+    + list() : List<Rating>
+    + update(id: int, dto: RatingUpdateDTO) : Rating
+    + delete(id: int) : bool
+  }
+  RatingRepository <|.. SQLAlchemyRatingRepository
+
+  ' Le service utilise le repository pour accéder aux données
+  RatingService --> RatingRepository : "calls"
+}
+
+' ---------------------------
+' Couche API (Endpoints FastAPI)
+' ---------------------------
+package "API" {
+  class RatingEndpoint {
+    + POST /ratings
+    + GET /ratings/{id}
+    + GET /ratings
+    + PUT /ratings/{id}
+    + DELETE /ratings/{id}
+  }
+  ' Les endpoints appellent le service
+  RatingEndpoint --> RatingService : "calls"
+}
+
+@enduml
