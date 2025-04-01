@@ -1,12 +1,13 @@
-# app/infrastructure/database.py
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.domain.base import Base  # Importer Base depuis le fichier commun
 import app.domain  # Ceci charge les modules user, item, rating via __init__.py
 from app.config import settings
 
-DATABASE_URL = f"{settings.DB_ENGINE}://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
+if(settings.APP_DEBUG):
+    DATABASE_URL = "sqlite:///./ratings.db"
+else: 
+    DATABASE_URL = f"{settings.DB_ENGINE}://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
 
 engine = create_engine(
     DATABASE_URL

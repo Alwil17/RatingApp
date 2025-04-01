@@ -22,7 +22,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def verify_token(token: str):
     try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(token, settings.APP_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
@@ -36,7 +36,7 @@ def verify_token(token: str):
 
 def get_current_user_role(token: str = Depends(oauth2_scheme)) -> str:
     try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(token, settings.APP_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
         role: str = payload.get("role")
         if role is None:
             raise HTTPException(

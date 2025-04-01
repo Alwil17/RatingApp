@@ -4,7 +4,6 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
 from jose import jwt
-from app.api.security import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 from app.application.services.user_service import UserService
 from app.infrastructure.database import get_db
 from sqlalchemy.orm import Session
