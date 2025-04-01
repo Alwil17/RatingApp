@@ -4,11 +4,12 @@ from sqlalchemy.orm import relationship, declarative_base
 from app.domain.base import Base
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
     
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), nullable=False)
     email = Column(String(100), unique=True, index=True, nullable=False)
+    hashed_password = Column(String(128), nullable=False)  # stocke le mot de passe haché
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     

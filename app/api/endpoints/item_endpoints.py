@@ -3,12 +3,15 @@ from sqlalchemy.orm import Session
 from app.application.schemas.item_dto import ItemCreateDTO, ItemUpdateDTO, ItemResponse
 from app.application.services.item_service import ItemService
 from app.infrastructure.database import get_db
+from app.api.security import oauth2_scheme, verify_token
 
 router = APIRouter(prefix="/items", tags=["Items"])
 
 
 @router.post("", response_model=ItemResponse, status_code=201)
-def create_item(item_data: ItemCreateDTO, db: Session = Depends(get_db)):
+def create_item(item_data: ItemCreateDTO, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    # Vérifie le token ; renvoie le nom d'utilisateur ou lève une exception
+    verify_token(token)
     item_service = ItemService(db)
     item = item_service.create_item(item_data)
     return item
@@ -22,7 +25,8 @@ def get_item(item_id: int, db: Session = Depends(get_db)):
     return item
 
 @router.get("", response_model=list[ItemResponse])
-def list_items(db: Session = Depends(get_db)):
+def list_items(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    verify_token(token)
     item_service = ItemService(db)
     return item_service.list_items()
 
