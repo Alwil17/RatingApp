@@ -9,3 +9,6 @@ httpx==0.28.1
 python-jose[cryptography] 
 passlib[bcrypt]
 python-multipart
+prometheus-fastapi-instrumentator
+sentry-sdk[fastapi]
+python-dotenv
