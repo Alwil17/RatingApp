@@ -54,7 +54,7 @@ jobs:
         run: pip install bandit safety
 
       - name: Run Bandit Scan
-        run: bandit -r .
+        run: bandit -c bandit.yaml -r .
       
       - name: Run Safety CLI to check for vulnerabilities
         uses: pyupio/safety-action@v1
