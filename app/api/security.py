@@ -4,6 +4,12 @@ from fastapi import Depends, HTTPException, status
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
+credentials_exception = HTTPException(
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail="Could not validate credentials",
+    headers={"WWW-Authenticate": "Bearer"},
+)
+
 # Clé secrète pour signer les tokens (à stocker de façon sécurisée !)
 SECRET_KEY = "ton_secret_super_secret"  
 ALGORITHM = "HS256"
