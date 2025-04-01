@@ -5,9 +5,9 @@ name: Python application
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "devmain" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "devmain" ]
 
 permissions:
   contents: read
@@ -37,3 +37,26 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+  
+  security:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      
+      - name: Install dependencies
+        run: pip install bandit safety
+
+      - name: Run Bandit Scan
+        run: bandit -c bandit.yaml -r .
+      
+      - name: Run Safety CLI to check for vulnerabilities
+        uses: pyupio/safety-action@v1
+        with:
+          api-key: ${{ secrets.SAFETY_API_KEY }}
