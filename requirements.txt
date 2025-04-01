@@ -11,3 +11,4 @@ passlib[bcrypt]
 python-multipart
 prometheus-fastapi-instrumentator
 sentry-sdk[fastapi]
+python-dotenv
