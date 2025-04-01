@@ -5,6 +5,8 @@ __pycache__/
 *$py.class
 *.cpython
 *.cpython*
+*.cpython-312*
+*/*.cpython-312.pyc
 *.pyc
 *.pyc*
 # C extensions
