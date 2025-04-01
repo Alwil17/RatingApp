@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.application.schemas.item_dto import ItemCreateDTO, ItemUpdateDTO, ItemResponse
 from app.application.services.item_service import ItemService
 from app.infrastructure.database import get_db
-from app.api.security import oauth2_scheme, verify_token
+from app.api.security import oauth2_scheme, require_role, verify_token
 
 router = APIRouter(prefix="/items", tags=["Items"])
 
@@ -25,13 +25,13 @@ def get_item(item_id: int, db: Session = Depends(get_db)):
     return item
 
 @router.get("", response_model=list[ItemResponse])
-def list_items(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
-    verify_token(token)
+def list_items(db: Session = Depends(get_db)):
     item_service = ItemService(db)
     return item_service.list_items()
 
 @router.put("/{item_id}", response_model=ItemResponse)
-def update_item(item_id: int, item_data: ItemUpdateDTO, db: Session = Depends(get_db)):
+def update_item(item_id: int, item_data: ItemUpdateDTO, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db), role: str = Depends(require_role(["admin"]))):
+    verify_token(token)
     item_service = ItemService(db)
     updated_item = item_service.update_item(item_id, item_data)
     if not updated_item:
@@ -39,7 +39,8 @@ def update_item(item_id: int, item_data: ItemUpdateDTO, db: Session = Depends(ge
     return updated_item
 
 @router.delete("/{item_id}", status_code=204)
-def delete_item(item_id: int, db: Session = Depends(get_db)):
+def delete_item(item_id: int, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme), role: str = Depends(require_role(["admin"]))):
+    verify_token(token)
     item_service = ItemService(db)
     success = item_service.delete_item(item_id)
     if not success:
