@@ -5,4 +5,10 @@ alembic==1.15.2
 pydantic==2.11.1
 pydantic[email]
 pytest
-httpx
+httpx==0.28.1
+python-jose[cryptography] 
+passlib[bcrypt]
+python-multipart
+prometheus-fastapi-instrumentator
+sentry-sdk[fastapi]
+python-dotenv
